@@ -71,17 +71,42 @@ require("mason-lspconfig").setup_handlers {
                                 target = "21"
                             }
                         },
-                        -- Add Maven configuration
+                        -- Enhanced documentation settings
                         externalSources = {
                             autoConvertToKotlin = true,
+                            useKlsScheme = true, -- Enable KLS URI scheme for external documentation
                         },
                         completion = {
                             snippets = { enabled = true },
-                            documentation = { enabled = true, full = true }
+                            documentation = {
+                                enabled = true,
+                                full = true,
+                                webSample = true,          -- Include web samples in documentation
+                                webLinks = true,           -- Show links to online documentation
+                                website = "kotlinlang.org" -- Use kotlinlang.org as source for documentation
+                            }
                         },
                         hover = {
-                            documentation = { enabled = true },
+                            documentation = {
+                                enabled = true,
+                                full = true,
+                                webSample = true,          -- Include web samples in hover
+                                webLinks = true,           -- Show links to online documentation
+                                website = "kotlinlang.org" -- Use kotlinlang.org as source for documentation
+                            },
                             references = { enabled = true }
+                        },
+                        -- Add KDoc integration
+                        kDoc = {
+                            enableExternal = true, -- Enable fetching external documentation
+                            webLookup = true,      -- Enable web lookup for KDoc
+                            referenceProvider = {
+                                enabled = true     -- Enable reference provider for KDoc
+                            },
+                            externalDocumentation = {
+                                enabled = true,            -- Enable external documentation
+                                website = "kotlinlang.org" -- Use kotlinlang.org as source
+                            }
                         }
                     }
                 },
@@ -96,7 +121,7 @@ require("mason-lspconfig").setup_handlers {
                         }
                     )
                 },
-                -- Add initialization options for Maven
+                -- Add initialization options for Maven and external sources
                 init_options = {
                     storagePath = "/tmp/kotlin-language-server",
                     transport = "stdio",
@@ -105,6 +130,29 @@ require("mason-lspconfig").setup_handlers {
                     },
                     maven = {
                         enabled = true,
+                    },
+                    externalSources = {
+                        enabled = true,
+                        autoConvertToKotlin = true
+                    },
+                    -- Add KDoc lookup configuration
+                    docLookup = {
+                        enabled = true,
+                        webProvider = "kotlinlang.org", -- Use official Kotlin documentation
+                        useCache = true,                -- Cache documentation locally
+                        maxCacheSize = 100,             -- Maximum number of cached items
+                        externalDocumentation = {
+                            enabled = true,
+                            preferWebsite = true -- Prefer website over local docs
+                        }
+                    },
+                    -- Add web integration
+                    webIntegration = {
+                        enabled = true,        -- Enable web integration
+                        documentationLookup = {
+                            kotlinlang = true, -- Enable kotlinlang.org lookups
+                            androidDocs = true -- Enable Android documentation
+                        }
                     }
                 }
             }
