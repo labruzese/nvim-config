@@ -58,101 +58,240 @@ require("mason-lspconfig").setup_handlers {
                 }
             }
         elseif server_name == "kotlin_language_server" then
-            -- Kotlin Language Server configuration
+            -- Kotlin Language Server configuration with enhanced KDoc support
             lspconfig[server_name].setup {
-                on_attach = nvlsp.on_attach,
+                on_attach = function(client, bufnr)
+                    -- Standard on_attach function
+                    nvlsp.on_attach(client, bufnr)
+
+                    -- Enhanced hover handler
+                    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>',
+                        { noremap = true, silent = true, desc = "Enhanced hover with KDoc support" })
+                end,
                 on_init = nvlsp.on_init,
                 capabilities = nvlsp.capabilities,
-                root_dir = util.root_pattern("pom.xml", "*.kt", ".git"),
+                root_dir = util.root_pattern("pom.xml", "build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts", "*.kt", ".git"),
+                -- Using default cmd without unsupported parameters
+                -- cmd = {
+                --     "kotlin-language-server"
+                -- },
                 settings = {
                     kotlin = {
+                        -- Compiler settings
                         compiler = {
                             jvm = {
                                 target = "21"
                             }
                         },
-                        -- Enhanced documentation settings
+                        -- External sources configuration
                         externalSources = {
                             autoConvertToKotlin = true,
-                            useKlsScheme = true, -- Enable KLS URI scheme for external documentation
+                            useKlsScheme = true,
+                            includeStdLib = true,
+                            includeKotlinApi = true,
+                            downloadStdLib = true,
+                            downloadJavadoc = true,
+                            downloadSources = true
                         },
+                        -- Completion settings with documentation
                         completion = {
                             snippets = { enabled = true },
+                            smartCompletion = true,
                             documentation = {
                                 enabled = true,
                                 full = true,
-                                webSample = true,          -- Include web samples in documentation
-                                webLinks = true,           -- Show links to online documentation
-                                website = "kotlinlang.org" -- Use kotlinlang.org as source for documentation
+                                webSample = true,
+                                webLinks = true,
+                                website = "kotlinlang.org",
+                                includeStandardLibrary = true,
+                                renderMarkdown = true,
+                                colors = {
+                                    enabled = true,
+                                    background = "#0d1117",
+                                    foreground = "#f0f6fc",
+                                    codeBlocks = true,
+                                    headers = true,
+                                    links = "#58a6ff"
+                                }
                             }
                         },
+                        -- Hover documentation settings
                         hover = {
+                            enabled = true,
                             documentation = {
                                 enabled = true,
                                 full = true,
-                                webSample = true,          -- Include web samples in hover
-                                webLinks = true,           -- Show links to online documentation
-                                website = "kotlinlang.org" -- Use kotlinlang.org as source for documentation
+                                webSample = true,
+                                webLinks = true,
+                                website = "kotlinlang.org",
+                                includeStandardLibrary = true,
+                                renderMarkdown = true,
+                                enhancedRendering = true,
+                                colors = {
+                                    enabled = true,
+                                    background = "#0d1117",
+                                    foreground = "#f0f6fc",
+                                    kdoc = {
+                                        tagNameColor = "#ff7b72",
+                                        tagDescriptionColor = "#c9d1d9",
+                                        linkColor = "#58a6ff",
+                                        codeBackgroundColor = "#161b22",
+                                        codeColor = "#f0f6fc"
+                                    }
+                                }
                             },
-                            references = { enabled = true }
+                            references = { enabled = true },
+                            semanticTokens = { enabled = true }
                         },
-                        -- Add KDoc integration
+                        -- KDoc specific settings
                         kDoc = {
-                            enableExternal = true, -- Enable fetching external documentation
-                            webLookup = true,      -- Enable web lookup for KDoc
+                            enabled = true,
+                            enableExternal = true,
+                            enableStandardLibrary = true,
+                            loadStandardLibraryKDoc = true,
+                            webLookup = true,
+                            preferSourceCodeWithJavadoc = true,
+                            applyColorScheme = true,
+                            styling = {
+                                enabled = true,
+                                useMarkdownRendering = true,
+                                colorize = true,
+                                useSyntaxHighlighting = true
+                            },
+                            colors = {
+                                enabled = true,
+                                tagNameColor = "#ff7b72",
+                                tagDescriptionColor = "#c9d1d9",
+                                linkColor = "#58a6ff",
+                                headerColor = "#d2a8ff",
+                                codeBlockColor = "#79c0ff"
+                            },
                             referenceProvider = {
-                                enabled = true     -- Enable reference provider for KDoc
+                                enabled = true,
+                                includeStandardLibrary = true
                             },
                             externalDocumentation = {
-                                enabled = true,            -- Enable external documentation
-                                website = "kotlinlang.org" -- Use kotlinlang.org as source
+                                enabled = true,
+                                website = "kotlinlang.org",
+                                standardLibrary = true,
+                                includeJava = true,
+                                useCache = true
                             }
+                        },
+                        -- Semantic highlighting settings
+                        semanticHighlighting = {
+                            enabled = true
+                        },
+                        -- Formatting settings
+                        formatting = {
+                            enabled = true
                         }
                     }
                 },
                 handlers = {
                     ["textDocument/hover"] = vim.lsp.with(
                         vim.lsp.handlers.hover, {
-                            -- Increase border width for more content
                             border = "rounded",
-                            -- Increase max width and height
-                            max_width = 80,
-                            max_height = 40
+                            max_width = 100,
+                            max_height = 50,
+                            stylize_markdown = true,
                         }
                     )
                 },
-                -- Add initialization options for Maven and external sources
+                -- Enhanced init options
                 init_options = {
                     storagePath = "/tmp/kotlin-language-server",
                     transport = "stdio",
                     clientInfo = {
                         name = "neovim",
+                        version = "0.9.0"
                     },
+                    -- Classpath and compiler options
+                    compilerOptions = {
+                        jvm = {
+                            target = "21"
+                        },
+                        api = {
+                            version = "1.9"
+                        },
+                        javaSourceCompatibility = "21"
+                    },
+                    -- Maven integration
                     maven = {
                         enabled = true,
+                        downloadSources = true,
+                        downloadJavadoc = true
                     },
+                    -- Gradle integration
+                    gradle = {
+                        enabled = true,
+                        downloadSources = true,
+                        downloadJavadoc = true
+                    },
+                    -- External sources configuration
                     externalSources = {
                         enabled = true,
-                        autoConvertToKotlin = true
+                        autoConvertToKotlin = true,
+                        includeStdLib = true,
+                        includeJdk = true,
+                        downloadIfMissing = true,
+                        preferLocalSources = false
                     },
-                    -- Add KDoc lookup configuration
+                    -- Enhanced KDoc lookup configuration
                     docLookup = {
                         enabled = true,
-                        webProvider = "kotlinlang.org", -- Use official Kotlin documentation
-                        useCache = true,                -- Cache documentation locally
-                        maxCacheSize = 100,             -- Maximum number of cached items
+                        webProvider = "kotlinlang.org",
+                        useCache = true,
+                        maxCacheSize = 500,
+                        renderFormatting = true,
+                        standardLibrary = {
+                            enabled = true,
+                            downloadIfMissing = true,
+                            jdkSourcesEnabled = true,
+                            forceDownload = true,
+                            preferWebLookup = false
+                        },
                         externalDocumentation = {
                             enabled = true,
-                            preferWebsite = true -- Prefer website over local docs
+                            preferWebsite = true,
+                            cacheEnabled = true
                         }
                     },
-                    -- Add web integration
+                    -- Web integration for documentation
                     webIntegration = {
-                        enabled = true,        -- Enable web integration
+                        enabled = true,
                         documentationLookup = {
-                            kotlinlang = true, -- Enable kotlinlang.org lookups
-                            androidDocs = true -- Enable Android documentation
+                            kotlinlang = true,
+                            androidDocs = true,
+                            standardLibrary = true,
+                            jdk = true
                         }
+                    },
+                    -- Hover documentation rendering options
+                    hover = {
+                        enabled = true,
+                        enhancedRendering = true
+                    },
+                    -- Styling for KDoc and documentation rendering
+                    renderOptions = {
+                        colors = true,
+                        codeBlocks = true,
+                        useTheme = true,
+                        supportMarkdown = true,
+                        enhancedHover = true,
+                        applyHighlighting = true,
+                        syntaxHighlighting = true,
+                        theme = "dark"
+                    },
+                    -- Standard library specific configuration
+                    standardLibrary = {
+                        enabled = true,
+                        downloadSources = true,
+                        downloadJavadoc = true,
+                        includeInCompletion = true,
+                        includeInHover = true,
+                        enhancedDocumentation = true,
+                        colorizeDocumentation = true
                     }
                 }
             }

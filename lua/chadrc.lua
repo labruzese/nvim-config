@@ -37,7 +37,7 @@ M.nvdash = {
         { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
         { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
         { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
-        { txt = "  Configuration", keys = "cf", cmd = ":e $MYVIMRC <CR>" },
+        { txt = "  Configuration", keys = "cf", cmd = ":lua require('telescope.builtin').find_files({cwd = vim.fn.stdpath('config')}) <CR>" },
         { txt = "󰈆  Quit Neovim", keys = "q", cmd = ":qa<CR>" },
 
         { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },

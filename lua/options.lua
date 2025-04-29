@@ -14,21 +14,29 @@ o.expandtab = false -- Use spaces instead of tabs
 
 -- Ensure consistent indentation for different file types
 vim.api.nvim_create_autocmd("FileType", {
-  desc = "Set consistent tab settings",
-  group = vim.api.nvim_create_augroup("consistent-tabs", {clear = true}),
-  callback = function()
-    vim.bo.tabstop = 4
-    vim.bo.softtabstop = 4
-    vim.bo.shiftwidth = 4
-    vim.bo.expandtab = true
-  end,
+    desc = "Set consistent tab settings",
+    group = vim.api.nvim_create_augroup("consistent-tabs", { clear = true }),
+    callback = function()
+        vim.bo.tabstop = 4
+        vim.bo.softtabstop = 4
+        vim.bo.shiftwidth = 4
+        vim.bo.expandtab = true
+    end,
+})
+
+-- Set up K to use man with section 3 for C files
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "c",
+    callback = function()
+        vim.bo.keywordprg = "man 3"  -- Use man section 3 specifically for library functions
+    end,
 })
 
 -- Existing yank highlight autocmd
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking text",
-  group = vim.api.nvim_create_augroup("highlight-yank", {clear = true}),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+    desc = "Highlight when yanking text",
+    group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
 })

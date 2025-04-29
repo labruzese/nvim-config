@@ -4,10 +4,11 @@ require "nvchad.mappings"
 local map = vim.keymap.set
 
 -- Your existing mappings
-map("i", "jk", "<ESC>")
-map("n", "<INS>", "<ESC>")
-map("i", "<INS>", "<ESC>")
-map("v", "<INS>", "<ESC>")
+map('n', '<A-o>', '<Nop>', { desc = "No operation" })
+map('i', '<A-o>', '<Nop>', { desc = "No operation" })
+map('v', '<A-o>', '<Nop>', { desc = "No operation" })
+map('t', '<A-o>', '<Nop>', { desc = "No operation" })
+
 -- Terminal keybinds
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
@@ -36,7 +37,10 @@ map('n', '<space>ca', vim.lsp.buf.code_action, { desc = "Code actions" })
 map('n', 'gr', vim.lsp.buf.references, { desc = "Find references" })
 map('n', '<space>f', function()
     local conform = require("conform")
-    conform.format({ async = true, lsp_fallback = true })
+    conform.format({
+        async = true,
+        lsp_fallback = true,
+    })
 end, { desc = "Format code with conform.nvim" })
 
 -- Diagnostic keymaps
