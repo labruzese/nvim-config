@@ -9,6 +9,10 @@ map('i', '<A-o>', '<Nop>', { desc = "No operation" })
 map('v', '<A-o>', '<Nop>', { desc = "No operation" })
 map('t', '<A-o>', '<Nop>', { desc = "No operation" })
 
+map('n', '<C-y>', '"+y', { desc = "Yank to system clipboard (normal mode)" })
+map('v', '<C-y>', '"+y', { desc = "Yank to system clipboard (visual mode)" })
+map('n', '<C-p>', '"+p', { desc = "Paste from system clipboard (normal mode)" })
+
 -- Terminal keybinds
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 

@@ -1,10 +1,12 @@
 require "nvchad.options"
--- add yours here!
 local o = vim.o
+
 -- o.cursorlineopt ='both' -- to enable cursorline!
 o.relativenumber = true
 o.scrolloff = 10
 o.smartindent = true
+
+o.clipboard = ""
 
 -- Explicit 4-space tab configuration
 o.tabstop = 4       -- Number of spaces a <Tab> in the file counts for
