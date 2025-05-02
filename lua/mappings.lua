@@ -13,6 +13,8 @@ map('n', '<C-y>', '"+y', { desc = "Yank to system clipboard (normal mode)" })
 map('v', '<C-y>', '"+y', { desc = "Yank to system clipboard (visual mode)" })
 map('n', '<C-p>', '"+p', { desc = "Paste from system clipboard (normal mode)" })
 
+map('n', '-', "<cmd>Oil<cr>", { desc = "Open parent directory with Oil" })
+
 -- Terminal keybinds
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
