@@ -1,4 +1,6 @@
 require("nvchad.configs.lspconfig").defaults()
+require("mason")
+
 local lspconfig = require "lspconfig"
 local mason_lspconfig = require("mason-lspconfig")
 local nvlsp = require "nvchad.configs.lspconfig"
@@ -8,7 +10,7 @@ local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 local is_linux = vim.loop.os_uname().sysname == "Linux"
 
 -- Then set up the handlers
-mason_lspconfig.setup_handlers {
+mason_lspconfig.setup {
     function(server_name)
         if server_name == "clangd" then
             local query_driver = {}
