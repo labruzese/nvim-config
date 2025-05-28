@@ -19,6 +19,7 @@ return {
                 "vim", "lua", "vimdoc",
                 "html", "css", "kotlin", "c", "commonlisp", "bash", "yaml", "json", "latex", "haskell", "rust"
             },
+            auto_install = true
         },
     },
 }
