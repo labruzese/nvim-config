@@ -1,11 +1,10 @@
 return {
     {
         "stevearc/conform.nvim",
-        -- event = 'BufWritePre', -- uncomment for format on save
+        event = 'BufWritePre',
         opts = require "configs.conform",
     },
 
-    -- These are some examples, uncomment them if you want to see them work!
     {
         "neovim/nvim-lspconfig",
         config = function()
@@ -18,7 +17,7 @@ return {
         opts = {
             ensure_installed = {
                 "vim", "lua", "vimdoc",
-                "html", "css", "kotlin", "c", "commonlisp",
+                "html", "css", "kotlin", "c", "commonlisp", "bash", "yaml", "json", "latex", "haskell", "rust"
             },
         },
     },

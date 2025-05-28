@@ -1,41 +1,18 @@
 return {
-  {
-    "nvim-telescope/telescope.nvim",
-    config = function()
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
-
-      telescope.setup({
-        defaults = {
-          mappings = {
-            i = {
-              ["<C-k>"] = actions.move_selection_previous,
-              ["<C-j>"] = actions.move_selection_next,
-              ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-              ["<esc>"] = actions.close,
-            },
-          },
-          file_ignore_patterns = {
-            "node_modules",
-            ".git",
-          },
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope-fzf-native.nvim"
         },
-        pickers = {
-          find_files = {
-            hidden = true,
-          },
+        config = function()
+            require "configs.telescope"
+        end,
+        keys = {
+            { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
+            { "<leader>fg", "<cmd>Telescope live_grep<cr>",  desc = "Live grep" },
+            { "<leader>fb", "<cmd>Telescope buffers<cr>",    desc = "Buffers" },
+            { "<leader>fh", "<cmd>Telescope help_tags<cr>",  desc = "Help tags" },
         },
-      })
-
-      -- Load telescope-fzf-native
-      telescope.load_extension("fzf")
-
-      -- Keymaps
-      local builtin = require("telescope.builtin")
-      vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-      vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-      vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-      vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
-    end,
-  },
+    },
 }

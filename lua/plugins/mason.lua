@@ -1,15 +1,23 @@
 return {
     {
+        "williamboman/mason.nvim",
+        opts = {
+            ensure_installed = {
+                "clangd",
+                "lua-language-server",
+                "stylua",
+            }
+        }
+    },
+    {
         "williamboman/mason-lspconfig.nvim",
         dependencies = {
             "williamboman/mason.nvim",
             "neovim/nvim-lspconfig",
         },
-        config = function()
-            require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls" },  -- Add other LSPs you want auto-installed
-                automatic_installation = true,
-            })
-        end,
+        opts = {
+            ensure_installed = { "clangd", "lua_ls" },
+            automatic_installation = true,
+        }
     }
 }
