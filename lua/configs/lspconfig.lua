@@ -6,6 +6,10 @@ local nvlsp = require "nvchad.configs.lspconfig"
 local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 local is_linux = vim.loop.os_uname().sysname == "Linux"
 
+require("mason-lspconfig").setup({
+    ensure_installed = { "clangd", "lua_ls" }
+})
+
 require("mason-lspconfig").setup_handlers {
     function(server_name)
         if server_name == "clangd" then
