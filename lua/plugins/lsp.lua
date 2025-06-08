@@ -19,5 +19,11 @@ return {
             ensure_installed = { "clangd", "lua_ls" },
             automatic_installation = true,
         }
-    }
+    },
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            require "configs.lspconfig"
+        end,
+    },
 }
