@@ -6,6 +6,8 @@ vim.opt.titlestring = " %t"
 vim.opt.titleold = "nvim_exit"
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("config") .. "/undo"
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
