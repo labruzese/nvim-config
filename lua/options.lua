@@ -30,7 +30,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "c",
     callback = function()
-        vim.bo.keywordprg = "man 3"  -- Use man section 3 specifically for library functions
+        vim.bo.keywordprg = "man 3" -- Use man section 3 specifically for library functions
     end,
 })
 
@@ -49,4 +49,15 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         vim.bo.filetype = "c"
     end,
     desc = "Treat .h files as C files"
+})
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+    pattern = { "*.hl", "hypr*.conf" },
+    callback = function()
+        vim.lsp.start {
+            name = "hyprlang",
+            cmd = { "hyprls" },
+            root_dir = vim.fn.getcwd(),
+        }
+    end
 })

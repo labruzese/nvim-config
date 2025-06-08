@@ -62,6 +62,3 @@ map('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { desc = "Remove work
 map('n', '<space>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, { desc = "List workspace folders" })
-
-
-map('n', '<space>p', '<cmd>Telescope neoclip<cr>', { desc = "Open clipboard history" })
