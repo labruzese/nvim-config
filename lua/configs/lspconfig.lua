@@ -21,4 +21,8 @@ vim.lsp.config('clangd', {
     }
 })
 
+vim.lsp.config('kotlin_lsp', {
+    cmd = { 'kotlin-lsp' },
+})
+
 require("mason-lspconfig").setup()

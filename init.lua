@@ -3,7 +3,6 @@ vim.g.mapleader = " "
 
 vim.opt.title = true
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath("config") .. "/undo"
 vim.opt.number = true
 vim.opt.relativenumber = true
 

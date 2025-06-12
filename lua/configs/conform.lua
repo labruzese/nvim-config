@@ -4,12 +4,18 @@ local options = {
         -- css = { "prettier" },
         -- html = { "prettier" },
         c = { "clang_format" },
+        kotlin = { "ktlint" },
     },
     formatters = {
         clang_format = {
             prepend_args = {
                 "--style={IndentWidth: 4, TabWidth: 4, UseTab: Never, BasedOnStyle: LLVM, SeparateDefinitionBlocks: Always, ColumnLimit: 100, KeepEmptyLinesAtTheStartOfBlocks: false, SpaceBeforeParens: ControlStatements}"
             }
+        }
+        ktlint = {
+            command = "ktlint",
+            args = { "--format", "--stdin" },
+            stdin = true,
         }
     },
     format_on_save = {
