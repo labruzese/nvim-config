@@ -1,3 +1,30 @@
+_G.virtual_text_enabled = true
+
+vim.diagnostic.config({
+    virtual_text = {
+        enabled = true,
+        source = "if_many",
+        prefix = "▎",
+        spacing = 4,
+        virt_text_pos = "right_align",
+        severity_sort = true,
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+    float = {
+        focusable = false,
+        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        border = 'rounded',
+        source = 'always',
+        header = '',
+        prefix = '',
+        scope = 'cursor',
+    }
+})
+
+
 vim.lsp.config('clangd', {
     cmd = {
         "clangd",
@@ -22,7 +49,13 @@ vim.lsp.config('clangd', {
 })
 
 vim.lsp.config('kotlin_lsp', {
-    cmd = { 'kotlin-lsp' },
+    cmd = { "kotlin-ls", "--stdio" },
+    single_file_support = true,
+    filetypes = { "kotlin" },
+    root_markers = { "build.gradle", "build.gradle.kts", "pom.xml" },
 })
+
+-- This is a local install so we have to enable it manually (mason-lspconfig won't do it for us)
+vim.lsp.enable('kotlin_lsp')
 
 require("mason-lspconfig").setup()

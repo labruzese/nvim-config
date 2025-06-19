@@ -1,8 +1,6 @@
 local options = {
     formatters_by_ft = {
         lua = { "stylua" },
-        -- css = { "prettier" },
-        -- html = { "prettier" },
         c = { "clang_format" },
         kotlin = { "ktlint" },
     },
@@ -11,17 +9,18 @@ local options = {
             prepend_args = {
                 "--style={IndentWidth: 4, TabWidth: 4, UseTab: Never, BasedOnStyle: LLVM, SeparateDefinitionBlocks: Always, ColumnLimit: 100, KeepEmptyLinesAtTheStartOfBlocks: false, SpaceBeforeParens: ControlStatements}"
             }
-        }
+        },
         ktlint = {
-            command = "ktlint",
-            args = { "--format", "--stdin" },
+            cmd = 'ktlint',
             stdin = true,
+            args = { '--format', '--stdin', '--log-level=none' },
         }
     },
     format_on_save = {
-        -- These options will be passed to conform.format()
-        timeout_ms = 500,
+        timeout_ms = 15000,
         lsp_fallback = true,
     },
+    log_level = vim.log.levels.INFO,
+    notify_on_error = true,
 }
 return options

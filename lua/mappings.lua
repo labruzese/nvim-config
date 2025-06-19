@@ -37,8 +37,35 @@ map('n', '<space>f', function()
     conform.format({
         async = true,
         lsp_fallback = true,
+        timeout_ms = 15000,
     })
 end, { desc = "Format code with conform.nvim" })
+
+-- Toggle hint+info+warnings virtual text (keeping errors always visible)
+map('n', '<space>dt', function()
+    local current_config = vim.diagnostic.config()
+
+    if _G.virtual_text_enabled then
+        -- Disable hint+info+warnings, keep only errors
+        vim.diagnostic.config({
+            virtual_text = vim.tbl_extend("force", current_config.virtual_text, {
+                severity = { min = vim.diagnostic.severity.ERROR }
+            })
+        })
+        _G.virtual_text_enabled = false
+        print("Diagnostic virtual text: hints+info+warnings disabled (errors still shown)")
+    else
+        -- Enable all severities
+        vim.diagnostic.config({
+            virtual_text = vim.tbl_extend("force", current_config.virtual_text, {
+                severity = { min = vim.diagnostic.severity.HINT }
+            })
+        })
+        _G.virtual_text_enabled = true
+        print("Diagnostic virtual text: all severities enabled")
+    end
+end, { desc = "Toggle extra lsp virtual text" })
+
 
 -- Diagnostic keymaps
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
