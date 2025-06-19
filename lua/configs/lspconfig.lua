@@ -49,7 +49,7 @@ vim.lsp.config('clangd', {
 })
 
 vim.lsp.config('kotlin_lsp', {
-    cmd = { "kotlin-ls", "--stdio" },
+    cmd = { "kotlin-lsp", "--stdio" },
     single_file_support = true,
     filetypes = { "kotlin" },
     root_markers = { "build.gradle", "build.gradle.kts", "pom.xml" },
