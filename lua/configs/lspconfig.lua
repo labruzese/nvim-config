@@ -2,7 +2,7 @@ _G.virtual_text_enabled = true
 
 vim.diagnostic.config({
     virtual_text = {
-        enabled = true,
+        enabled = false,
         source = "if_many",
         prefix = "▎",
         spacing = 4,
