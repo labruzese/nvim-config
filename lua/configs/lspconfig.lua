@@ -2,11 +2,6 @@ _G.virtual_text_enabled = true
 
 vim.diagnostic.config({
     virtual_text = {
-        enabled = false,
-        source = "if_many",
-        prefix = "▎",
-        spacing = 4,
-        virt_text_pos = "right_align",
         severity_sort = true,
     },
     signs = true,
@@ -20,7 +15,7 @@ vim.diagnostic.config({
         source = 'always',
         header = '',
         prefix = '',
-        scope = 'cursor',
+        scope = 'line',
     }
 })
 
@@ -55,7 +50,23 @@ vim.lsp.config('kotlin_lsp', {
     root_markers = { "build.gradle", "build.gradle.kts", "pom.xml" },
 })
 
+vim.lsp.config('hls', {
+    filetypes = { 'haskell', 'lhaskell', 'cabal' },
+})
+
+vim.lsp.config('rust_analyzer', {
+    settings = {
+        ['rust-analyzer'] = {
+            diagnostics = {
+                enable = true,
+            }
+        }
+    }
+})
+
 -- This is a local install so we have to enable it manually (mason-lspconfig won't do it for us)
 vim.lsp.enable('kotlin_lsp')
+vim.lsp.enable('hls')
+vim.lsp.enable('rust_analyzer')
 
 require("mason-lspconfig").setup()
