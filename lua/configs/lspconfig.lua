@@ -1,7 +1,6 @@
 _G.virtual_text_enabled = true
 
 vim.diagnostic.config({
-<<<<<<< HEAD
 	virtual_text = {
 		severity_sort = true,
 	},
@@ -18,24 +17,6 @@ vim.diagnostic.config({
 		prefix = '',
 		scope = 'line',
 	}
-=======
-    virtual_text = {
-        severity_sort = true,
-    },
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-    severity_sort = true,
-    float = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = 'rounded',
-        source = 'always',
-        header = '',
-        prefix = '',
-        scope = 'line',
-    }
->>>>>>> 743f49d4b8898cc998d8ed588823825075885f17
 })
 
 
@@ -84,22 +65,23 @@ vim.lsp.config('rust_analyzer', {
 })
 
 vim.lsp.config('hls', {
-    filetypes = { 'haskell', 'lhaskell', 'cabal' },
+	filetypes = { 'haskell', 'lhaskell', 'cabal' },
 })
 
 vim.lsp.config('rust_analyzer', {
-    settings = {
-        ['rust-analyzer'] = {
-            diagnostics = {
-                enable = true,
-            }
-        }
-    }
+	settings = {
+		['rust-analyzer'] = {
+			diagnostics = {
+				enable = true,
+			}
+		}
+	}
 })
 
 -- This is a local install so we have to enable it manually (mason-lspconfig won't do it for us)
 vim.lsp.enable('kotlin_lsp')
 vim.lsp.enable('hls')
 vim.lsp.enable('rust_analyzer')
+vim.lsp.enable('ocamllsp')
 
 require("mason-lspconfig").setup()
